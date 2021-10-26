@@ -13,7 +13,7 @@
         <option value="none">none</option>
         <%request.getParameter("cookieAttribute");%>
         <c:forEach items="${listCategory}" var="category">
-            <option ${category.name == varCookie ? "selected":""} value="${category.name}">${category.name}</option>
+            <option ${category.name == varCookie ? "selected":"no"} value="${category.name}">${category.name}</option>
         </c:forEach>
     </select>
     <br>
