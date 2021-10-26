@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for the relatioship beetween a {@link Student} and an {@link Exam}
+ */
 public class ExamStudentRepo {
 
     private Connection con;
@@ -22,7 +25,14 @@ public class ExamStudentRepo {
     }
 
 
-    public int insertExamStudent(Integer exam, Integer student) throws SQLException, ClassNotFoundException {
+    /**
+     * Insert in the student_exam table an entity with the student id and the associated exam id
+     * @param exam
+     * @param student
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public void insertExamStudent(Integer exam, Integer student) throws SQLException, ClassNotFoundException {
 
         int result = 0;
         con = getCon();
@@ -36,9 +46,16 @@ public class ExamStudentRepo {
         result = stmt.executeUpdate();
         con.close();
 
-        return result;
     }
 
+
+    /**
+     * Gets all the exams names associated with a studentID
+     * @param studentId
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public List<String> getExamsNames(Integer studentId) throws SQLException, ClassNotFoundException {
 
         con = getCon();

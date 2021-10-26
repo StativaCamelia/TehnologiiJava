@@ -4,6 +4,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import java.io.Serializable;
 
+/**
+ * Model that represents a time value with a hour and a minute
+ */
 @ManagedBean(name="time")
 @RequestScoped
 public class Time implements Serializable {

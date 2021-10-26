@@ -9,6 +9,9 @@ import javax.faces.bean.RequestScoped;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Bean for the operations regarding the relation between a student and an exam
+ */
 @ManagedBean(name = "examStudentBean")
 @RequestScoped
 public class ExamStudent {
@@ -38,11 +41,21 @@ public class ExamStudent {
         this.examStudentRepo = new ExamStudentRepo();
     }
 
+    /**
+     * Saves the relationship between a {@link Student} and a {@link Exam}
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void saveExamStudent() throws SQLException, ClassNotFoundException {
 
         examStudentRepo.insertExamStudent(examId, studentId);
     }
 
+    /**
+     * Gets the {@link Exam} names for a {@link Student} id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public List<String> getExams(Integer studentId) throws SQLException, ClassNotFoundException {
 
         return examStudentRepo.getExamsNames(studentId);
