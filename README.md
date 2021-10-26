@@ -16,3 +16,14 @@
 2.  We have a web filter that logs data about the request, the data can be seen in the console and a web filter that adds the test "filtered" at the beggining and at the end of the html response
 3.  We can see that if we set none for the category then the actual value will be animal, a value that it's set as a context init parameter and it is read at the servlet startup
 4.  We can see by inspecting the html file that after submit there will be a cookie with the category
+
+## Homework 3
+
+1.  Start the server, and from any browser access: http://localhost:8080/JavaServerFaces/, there will a form with the following buttons:
+ * Create Exam -> will open a form where you can create a new exam
+ * Create Student -> there you can add a new student
+ * See Students -> you can see the students and the associated exam in a data table
+ * See exams -> you can see all the exams in a data table
+ * A dropdown where you can select the language
+
+All of these are implemented usign the PrimeFaces framework
