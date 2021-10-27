@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui = "http://java.sun.com/jsf/facelets"
+		>
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template = "templates/common.xhtml">
+
+		<ui:define name = "content">
+			<p:button outcome="createStudent" value="#{msg['create_student']}"/>
+			<p:button outcome="createExam" value="#{msg['create_exam']}" />
+			<p:button outcome="seeExams" value="#{msg['see_exams']}" />
+			<p:button outcome="seeStudents" value="#{msg['see_students']}" />
+			<p:button outcome="associateExamToStudent" value="AssociateExamToStudent" />
+
+			<h:form>
+
+				<h:panelGrid columns="2">
+
+					Language :
+					<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+									 valueChangeListener="#{language.countryLocaleCodeChanged}">
+						<f:selectItems value="#{language.countriesInMap}" />
+					</h:selectOneMenu>
+
+				</h:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+
+		<ui:define name = "footer">
+			<h2>Page1 Footer</h2>
+		</ui:define>
+	</ui:composition>
+	</h:body>
+</html>
