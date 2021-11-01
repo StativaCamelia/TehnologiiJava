@@ -1,34 +1,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:tp="http://java.sun.com/jsf/composite/compos"
+>
 
 <h:head>
 </h:head>
 <h:body>
-    <h:form>
-        <div class="card">
-            <p:dataTable var="student" value="#{studentBean.getStudentList()}">
 
-                <p:column headerText="Id">
-                    <h:outputText value="#{student.id}" />
-                </p:column>
 
-                <p:column headerText="Name">
-                    <h:outputText value="#{student.name}" />
-                </p:column>
+    <ui:composition template="/templates/dataview.xhtml">
 
-                <p:column headerText="Exams">
-                    <p:selectOneMenu id="listaIdExams" value="#{examStudentBean.examId}" required="true">
-                        <f:selectItems value="#{examStudentBean.getExams(student.id)}" var="ex"
-                                       itemValue = "#{ex}"/>
-                    </p:selectOneMenu>
-                </p:column>
+        <ui:param name="function" value="#{studentBean.getStudentList()}"/>
 
-            </p:dataTable>
-        </div>
-    </h:form>
 
+        <ui:define name="dataview">
+
+            <p:column headerText="Id">
+                <h:outputText value="#{var.id}"/>
+            </p:column>
+
+            <p:column headerText="Name">
+                <h:outputText value="#{var.name}"/>
+            </p:column>
+
+            <p:column headerText="Exams">
+                <p:selectOneMenu id="listaIdExams" value="#{examStudentBean.examId}" required="true">
+                    <f:selectItems value="#{examStudentBean.getExams(var.id)}" var="ex"
+                                   itemValue="#{ex}"/>
+                </p:selectOneMenu>
+            </p:column>
+
+        </ui:define>
+    </ui:composition>
 </h:body>
 
 </html>

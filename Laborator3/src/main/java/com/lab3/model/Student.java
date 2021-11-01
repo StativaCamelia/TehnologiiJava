@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @ManagedBean(name="student")
 @RequestScoped
-public class Student implements Serializable {
+public class Student implements Serializable, Comparable<Student> {
 
 
     Long id;
@@ -31,5 +31,18 @@ public class Student implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Student:" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

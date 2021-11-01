@@ -1,38 +1,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
 <h:head>
 </h:head>
 <h:body>
-    <h:form>
-        <div class="card">
-            <p:dataTable var="exam" value="#{examBean.getExamList()}">
-                <p:column headerText="Id">
-                    <h:outputText value="#{exam.id}" />
-                </p:column>
 
-                <p:column headerText="Name">
-                    <h:outputText value="#{exam.name}" />
-                </p:column>
+    <ui:composition template="/templates/dataview.xhtml">
 
-                <p:column headerText="Day In Exam Session">
-                    <h:outputText value="#{exam.dayInExamSession}" />
-                </p:column>
+        <ui:param name="function" value="#{examBean.getExamList()}"/>
 
-                <p:column headerText="Hour">
-                    <h:outputText value="#{exam.hour.hour}" />
-                </p:column>
+        <ui:define name="dataview">
 
-                <p:column headerText="Minutes">
-                    <h:outputText value="#{exam.hour.minutes}" />
-                </p:column>
+                        <p:column headerText="Id">
+                            <h:outputText value="#{var.id}"/>
+                        </p:column>
 
-                <p:column headerText="Duration">
-                    <h:outputText value="#{exam.duration}" />
-                </p:column>
+                        <p:column headerText="Name">
+                            <h:outputText value="#{var.name}"/>
+                        </p:column>
 
-            </p:dataTable>
-        </div>
-    </h:form>
+                        <p:column headerText="Day In Exam Session">
+                            <h:outputText value="#{var.dayInExamSession}"/>
+                        </p:column>
+
+                        <p:column headerText="Hour">
+                            <h:outputText value="#{var.hour.hour}"/>
+                        </p:column>
+
+                        <p:column headerText="Minutes">
+                            <h:outputText value="#{var.hour.minutes}"/>
+                        </p:column>
+
+                        <p:column headerText="Duration">
+                            <h:outputText value="#{var.duration}"/>
+                        </p:column>
+
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

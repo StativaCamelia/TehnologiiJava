@@ -2,36 +2,46 @@ package com.lab3.repo;
 
 import com.lab3.model.Student;
 
+import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepo {
 
+    @Resource
+    private DataSource dataSource;
     private Connection con;
 
-    public StudentRepo() {
+    public StudentRepo() throws NamingException {
+        Context initContext = new InitialContext();
+        Context envContext = (Context) initContext.lookup("java:comp/env");
+        dataSource = (DataSource) envContext.lookup("jdbc/lab3");
 
     }
 
-    public Connection getCon() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lab3", "postgres", "password");
+    public Connection getCon() throws SQLException {
+
+        con = dataSource.getConnection();
         return con;
     }
 
     /**
      * Reads and returns all the students from the database
-     * @return
-     *      a list with all the students
+     *
+     * @return a list with all the students
      */
-    public List<Student> getAllStudent() throws SQLException, ClassNotFoundException {
+    public List<Student> getAllStudent() throws SQLException {
 
         con = getCon();
         List<Student> studentList = new ArrayList<>();
-        Statement stmt= con.createStatement();
-        ResultSet rs=stmt.executeQuery("select * from student");
-        while(rs.next()){
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from student");
+        while (rs.next()) {
 
             Student student = new Student();
             student.setName(rs.getString("name"));
@@ -45,16 +55,16 @@ public class StudentRepo {
 
     /**
      * Returns a list with all the student ids
-     * @return
-     *      a list of ids
+     *
+     * @return a list of ids
      */
-    public List<Integer> getAllStudentsIds() throws SQLException, ClassNotFoundException {
+    public List<Integer> getAllStudentsIds() throws SQLException {
 
         con = getCon();
         List<Integer> studentList = new ArrayList<>();
-        Statement stmt= con.createStatement();
-        ResultSet rs=stmt.executeQuery("select id from student");
-        while(rs.next()){
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select id from student");
+        while (rs.next()) {
 
             studentList.add(rs.getInt("id"));
         }
@@ -66,10 +76,10 @@ public class StudentRepo {
 
     /**
      * Stores a {@link Student} into the database
-     * @param student
-     *      the student that needs to be stored
+     *
+     * @param student the student that needs to be stored
      */
-    public int insertStudent(Student student) throws SQLException, ClassNotFoundException {
+    public int insertStudent(Student student) throws SQLException {
 
         int result;
         con = getCon();

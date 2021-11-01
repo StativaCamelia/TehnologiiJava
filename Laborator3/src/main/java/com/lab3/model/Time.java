@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Model that represents a time value with a hour and a minute
  */
-@ManagedBean(name="time")
+@ManagedBean(name = "time")
 @RequestScoped
 public class Time implements Serializable {
 
@@ -15,11 +15,11 @@ public class Time implements Serializable {
 
     private int minutes;
 
-    public Time(){
+    public Time() {
 
     }
 
-    public Time(int hour, int minute){
+    public Time(int hour, int minute) {
 
         this.hour = hour;
         this.minutes = minute;
