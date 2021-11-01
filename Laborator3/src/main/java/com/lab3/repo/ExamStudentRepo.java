@@ -3,7 +3,15 @@ package com.lab3.repo;
 import com.lab3.model.Exam;
 import com.lab3.model.Student;
 
-import java.sql.*;
+import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,37 +21,38 @@ import java.util.List;
 public class ExamStudentRepo {
 
     private Connection con;
+    @Resource
+    private DataSource dataSource;
 
-    public ExamStudentRepo() {
+    public ExamStudentRepo() throws NamingException {
+
+        Context initContext = new InitialContext();
+        Context envContext = (Context) initContext.lookup("java:comp/env");
+        dataSource = (DataSource) envContext.lookup("jdbc/lab3");
 
     }
 
-    public Connection getCon() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lab3", "postgres", "password");
+
+    public Connection getCon() throws SQLException {
+
+        con = dataSource.getConnection();
         return con;
     }
 
 
     /**
      * Insert in the student_exam table an entity with the student id and the associated exam id
-     * @param exam
-     * @param student
-     * @throws SQLException
-     * @throws ClassNotFoundException
      */
-    public void insertExamStudent(Integer exam, Integer student) throws SQLException, ClassNotFoundException {
+    public void insertExamStudent(Integer exam, Integer student) throws SQLException {
 
-        int result = 0;
         con = getCon();
 
         PreparedStatement stmt = con.prepareStatement(
                 "insert into student_exam(studentId, examId) values(?,?)");
 
         stmt.setInt(1, student);
-        stmt.setInt(2,exam);
+        stmt.setInt(2, exam);
 
-        result = stmt.executeUpdate();
         con.close();
 
     }
@@ -51,12 +60,8 @@ public class ExamStudentRepo {
 
     /**
      * Gets all the exams names associated with a studentID
-     * @param studentId
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
      */
-    public List<String> getExamsNames(Integer studentId) throws SQLException, ClassNotFoundException {
+    public List<String> getExamsNames(Integer studentId) throws SQLException {
 
         con = getCon();
         List<String> examList = new ArrayList<>();
@@ -65,7 +70,7 @@ public class ExamStudentRepo {
         stmt.setInt(1, studentId);
         ResultSet rs = stmt.executeQuery();
 
-        while(rs.next()){
+        while (rs.next()) {
 
             examList.add(rs.getString("name"));
         }

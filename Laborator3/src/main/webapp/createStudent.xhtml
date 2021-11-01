@@ -1,7 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
 
 <h:head>
 
@@ -9,16 +11,20 @@
 
 <h:body>
 
-    <h:form id="add">
-        <h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
-            <p:outputLabel for="name" value="Name" />
-            <p:inputText id="name" value="#{student.name}" />
-            <p:message for="name" />
 
-            <p:commandButton value="Create" action="#{studentBean.saveStudent(student)}">
-            </p:commandButton>
-        </h:panelGrid>
-    </h:form>
+    <ui:composition template="/templates/dataedit.xhtml">
+
+        <ui:param name="function" value="#{studentBean.saveStudent(student)}"/>
+
+        <ui:define name="dataEditContent">
+            <h:panelGrid id="bancaPanel" columns="2" cellpadding="5">
+                <p:outputLabel for="name" value="Name"/>
+                <p:inputText id="name" value="#{student.name}" required="true"/>
+                <p:message for="name"/>
+            </h:panelGrid>
+        </ui:define>
+
+    </ui:composition>
 
 </h:body>
 </html>

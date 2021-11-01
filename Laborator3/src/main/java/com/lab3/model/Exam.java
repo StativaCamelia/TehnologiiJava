@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Model class for an exam entity
  */
-@ManagedBean(name="exam")
+@ManagedBean(name = "exam")
 @RequestScoped
 public class Exam implements Serializable {
 

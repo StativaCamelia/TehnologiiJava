@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Bean for the language change operation
  */
-@ManagedBean(name="language")
+@ManagedBean(name = "language")
 @SessionScoped
 public class LanguageBean implements Serializable {
 
@@ -20,9 +20,10 @@ public class LanguageBean implements Serializable {
 
     private String localeCode;
 
-    private static Map<String,Object> countries;
-    static{
-        countries = new LinkedHashMap<String,Object>();
+    private static Map<String, Object> countries;
+
+    static {
+        countries = new LinkedHashMap<String, Object>();
         countries.put("English", Locale.ENGLISH);
         countries.put("Romanian", Locale.ITALIAN);
     }
@@ -41,16 +42,16 @@ public class LanguageBean implements Serializable {
         this.localeCode = localeCode;
     }
 
-    public void countryLocaleCodeChanged(ValueChangeEvent e){
+    public void countryLocaleCodeChanged(ValueChangeEvent e) {
 
         String newLocaleValue = e.getNewValue().toString();
 
         for (Map.Entry<String, Object> entry : countries.entrySet()) {
 
-            if(entry.getValue().toString().equals(newLocaleValue)){
+            if (entry.getValue().toString().equals(newLocaleValue)) {
 
                 FacesContext.getCurrentInstance()
-                        .getViewRoot().setLocale((Locale)entry.getValue());
+                        .getViewRoot().setLocale((Locale) entry.getValue());
 
             }
         }

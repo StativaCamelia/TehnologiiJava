@@ -3,38 +3,48 @@ package com.lab3.repo;
 import com.lab3.model.Exam;
 import com.lab3.model.Time;
 
+import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExamRepo {
 
+    @Resource
+    private final DataSource dataSource;
+
     private Connection con;
 
-    public ExamRepo() {
+    public ExamRepo() throws NamingException {
+
+        Context initContext = new InitialContext();
+        Context envContext = (Context) initContext.lookup("java:comp/env");
+        dataSource = (DataSource) envContext.lookup("jdbc/lab3");
 
     }
 
-    public Connection getCon() throws ClassNotFoundException, SQLException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lab3", "postgres", "password");
+    public Connection getCon() throws SQLException {
+
+        con = dataSource.getConnection();
         return con;
     }
 
     /**
      * Reds all the exams from the database and returns them
-     * @return
-     *      a list of {@link Exam} entities
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     *
+     * @return a list of {@link Exam} entities
      */
-    public List<Exam> getAllExams() throws SQLException, ClassNotFoundException {
+    public List<Exam> getAllExams() throws Exception {
 
         con = getCon();
-        List<Exam> examList = new ArrayList<Exam>();
-        Statement stmt= con.createStatement();
-        ResultSet rs=stmt.executeQuery("select * from exam");
-        while(rs.next()){
+        List<Exam> examList = new ArrayList<>();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from exam");
+        while (rs.next()) {
 
             Exam exam = new Exam();
             exam.setName(rs.getString("name"));
@@ -52,17 +62,13 @@ public class ExamRepo {
 
     /**
      * Insert a {@link Exam} into the database
-     * @param exam
-     *      The exam that needs to be saved
-     * @param time
-     *      The time associated with the exam
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     *
+     * @param exam The exam that needs to be saved
+     * @param time The time associated with the exam
      */
-    public int insertExam(Exam exam, Time time) throws SQLException, ClassNotFoundException {
+    public int insertExam(Exam exam, Time time) throws SQLException {
 
-        int result = 0;
+        int result;
         con = getCon();
 
         PreparedStatement stmt = con.prepareStatement(
@@ -82,18 +88,16 @@ public class ExamRepo {
 
     /**
      * Gets a list with all the ids for the saved {@link Exam} entities
-     * @return
-     *      a list of ids
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     *
+     * @return a list of ids
      */
-    public List<Integer> getExamsIds() throws SQLException, ClassNotFoundException {
+    public List<Integer> getExamsIds() throws SQLException, NamingException {
 
         con = getCon();
         List<Integer> examList = new ArrayList<>();
-        Statement stmt= con.createStatement();
-        ResultSet rs=stmt.executeQuery("select id from exam");
-        while(rs.next()){
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select id from exam");
+        while (rs.next()) {
 
             examList.add(rs.getInt("id"));
         }

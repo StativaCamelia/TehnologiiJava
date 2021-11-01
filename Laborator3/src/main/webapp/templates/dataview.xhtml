@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:tp="http://java.sun.com/jsf/composite/compos"
+>
+<ui:composition template="/page.xhtml">
+
+    <ui:define name="content">
+        <tp:search
+                searchLabel = "Search"
+                selectedStudent="#{autocomplete.selectedStudent}"
+                autocomplete="#{autocomplete.complete}"
+                studentName="#{student.name}"
+                studentValue="#{student}"
+        />
+
+        <h:form id="dataViewTable">
+            <div class="card">
+                <p:growl id="msg" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                <p:dataTable var="var" value="#{function}">
+                    <ui:insert name="dataview">
+                        Data view
+                    </ui:insert>
+                </p:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

@@ -6,6 +6,7 @@ import com.lab3.repo.ExamStudentRepo;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.naming.NamingException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -36,27 +37,29 @@ public class ExamStudent {
         this.studentId = studentId;
     }
 
-    public ExamStudent() {
+    public ExamStudent() throws NamingException {
 
         this.examStudentRepo = new ExamStudentRepo();
     }
 
     /**
      * Saves the relationship between a {@link Student} and a {@link Exam}
+     *
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public void saveExamStudent() throws SQLException, ClassNotFoundException {
+    public void saveExamStudent() throws SQLException, ClassNotFoundException, NamingException {
 
         examStudentRepo.insertExamStudent(examId, studentId);
     }
 
     /**
      * Gets the {@link Exam} names for a {@link Student} id
+     *
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public List<String> getExams(Integer studentId) throws SQLException, ClassNotFoundException {
+    public List<String> getExams(Integer studentId) throws SQLException, ClassNotFoundException, NamingException {
 
         return examStudentRepo.getExamsNames(studentId);
     }
