@@ -1,43 +1,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
 <h:head>
 
 </h:head>
 <h:body>
-    <h5>Create an exam</h5>
+    <ui:composition template="/templates/dataedit.xhtml">
 
-    <h:form id="add">
-        <h:panelGrid columns="3" cellpadding="5" style="margin: 0 auto;">
-            <p:outputLabel for="name" value="Name" />
-            <p:inputText id="name" value="#{exam.name}" />
-            <p:message for="name" />
+        <ui:param name="function" value="#{examBean.saveExam(exam, time)}"/>
 
-            <p:outputLabel for="duration" value="Duration" />
-            <p:inputNumber id="duration" value="#{exam.duration}">
+        <ui:define name="dataEditContent">
+
+            <p:outputLabel for="name" value="Name"/>
+            <p:inputText id="name" value="#{exam.name}" required="true"/>
+            <p:message for="name"/>
+
+            <p:outputLabel for="duration" value="Duration"/>
+            <p:inputNumber id="duration" value="#{exam.duration}" required="true">
             </p:inputNumber>
-            <p:message for="duration" />
+            <p:message for="duration"/>
 
-            <p:outputLabel for="dayInExamSession" value="Day In Exam Session" />
-            <p:inputNumber id="dayInExamSession" value="#{exam.dayInExamSession}">
+            <p:outputLabel for="dayInExamSession" value="Day In Exam Session"/>
+            <p:inputNumber id="dayInExamSession" value="#{exam.dayInExamSession}" required="true">
             </p:inputNumber>
-            <p:message for="dayInExamSession" />
+            <p:message for="dayInExamSession"/>
 
-            <p:outputLabel for="hour" value="Hour" />
-            <p:inputNumber minValue="0" maxValue="59" id="hour" value="#{time.hour}">
+            <p:outputLabel for="hour" value="Hour"/>
+            <p:inputNumber minValue="0" maxValue="59" id="hour" value="#{time.hour}" required="true">
             </p:inputNumber>
-            <p:message for="hour" />
+            <p:message for="hour"/>
 
-            <p:outputLabel for="minute" value="Minute" />
-            <p:inputNumber minValue="0" maxValue="23" id="minute" value="#{time.minutes}">
+            <p:outputLabel for="minute" value="Minute"/>
+            <p:inputNumber minValue="0" maxValue="23" id="minute" value="#{time.minutes}" required="true">
             </p:inputNumber>
-            <p:message for="minute" />
+            <p:message for="minute"/>
 
-            <p:commandButton value="Create" action="#{examBean.saveExam(exam, time)}">
-                <p:message for="Create" />
-            </p:commandButton>
-        </h:panelGrid>
-    </h:form>
+
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>
