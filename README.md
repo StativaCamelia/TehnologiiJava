@@ -27,3 +27,11 @@
  * A dropdown where you can select the language
 
 All of these are implemented usign the PrimeFaces framework
+
+## Homework 4
+This homework will continue the application started on homework number 3.
+1. The existent information is improved using templates(for page and also for dataview and dataedit) and connection pool(at the repository level)
+2. In addition we have the following functions:
+* Using: ajax and poll we continuosly display the students registered on the page
+* Using Composite we created a search bar for the students, there I also used a custom converter for the student class
+
