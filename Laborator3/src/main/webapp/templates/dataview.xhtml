@@ -10,7 +10,7 @@
 
     <ui:define name="content">
         <tp:search
-                searchLabel = "Search"
+                searchLabel="Search"
                 selectedStudent="#{autocomplete.selectedStudent}"
                 autocomplete="#{autocomplete.complete}"
                 studentName="#{student.name}"
@@ -18,15 +18,19 @@
         />
 
         <h:form id="dataViewTable">
+            <p:growl id="msgs" showDetail="true"/>
+
             <div class="card">
                 <p:growl id="msg" showDetail="true" skipDetailIfEqualsSummary="true"/>
-                <p:dataTable var="var" value="#{function}">
+                <p:dataTable editable="true" var="var" value="#{function}">
                     <ui:insert name="dataview">
-                        Data view
+                        <p:ajax event="rowEdit" listener="#{rowEdit}" update=":dataViewTable:msgs"/>
+                        <p:ajax event="rowEditCancel" listener="#{rowCancel}" update=":dataViewTable:msgs"/>
                     </ui:insert>
                 </p:dataTable>
             </div>
         </h:form>
+
     </ui:define>
 </ui:composition>
 </html>

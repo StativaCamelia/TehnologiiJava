@@ -2,13 +2,16 @@ package com.lab3.bean;
 
 import com.lab3.model.Student;
 import com.lab3.repo.StudentRepo;
+import org.primefaces.event.RowEditEvent;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -24,19 +27,19 @@ public class StudentBean {
     StudentRepo studentRepo;
     private Map<Long, Student> studentsAsMap;
 
-    public StudentBean() throws NamingException {
+    public StudentBean() {
 
-        this.studentRepo = new StudentRepo();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JPAExample");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        this.studentRepo = new StudentRepo(entityManager);
     }
 
     /**
      * Gets a list of students
      *
      * @return a list of {@link Student}s
-     * @throws SQLException
-     * @throws ClassNotFoundException
      */
-    public List<Student> getStudentList() throws SQLException, ClassNotFoundException, NamingException {
+    public List<Student> getStudentList() {
 
         return studentRepo.getAllStudent();
     }
@@ -45,10 +48,8 @@ public class StudentBean {
      * Gets the list of student ids saved
      *
      * @return a list of ids
-     * @throws SQLException
-     * @throws ClassNotFoundException
      */
-    public List<Integer> getStudentIds() throws SQLException, ClassNotFoundException, NamingException {
+    public List<Integer> getStudentIds() {
 
         return studentRepo.getAllStudentsIds();
     }
@@ -65,10 +66,8 @@ public class StudentBean {
      * Saves a student
      *
      * @param student The {@link Student} entity that needs to be saved
-     * @throws SQLException
-     * @throws ClassNotFoundException
      */
-    public void saveStudent(Student student) throws SQLException, ClassNotFoundException, NamingException {
+    public void saveStudent(Student student) {
 
         int result = studentRepo.insertStudent(student);
         if (result != 0) {
@@ -78,5 +77,18 @@ public class StudentBean {
         }
     }
 
+    public void remove(Student student) {
 
+        studentRepo.deleteStudent(student);
+    }
+
+    public void rowCancel(RowEditEvent<Student> event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void updateRow(RowEditEvent<Student> event) {
+        FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }

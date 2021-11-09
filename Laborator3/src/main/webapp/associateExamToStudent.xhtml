@@ -11,11 +11,15 @@
     <ui:composition template="/page.xhtml">
         <ui:define name="content">
             <h:form>
-                <h2>Exams</h2>
+                <h2>Exams Presentations</h2>
                 <div class="card">
-                    <p:dataTable var="exam" value="#{examBean.getExamList()}">
+                    <p:dataTable var="exam" value="#{examBean.getExamListPresentation()}">
                         <p:column headerText="Id">
-                            <h:outputText value="#{exam.id}"/>
+                            <h:outputText value="#{presentation.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Type">
+                            <h:outputText value="Presentation"/>
                         </p:column>
 
                         <p:column headerText="Name">
@@ -36,6 +40,50 @@
 
                         <p:column headerText="Duration">
                             <h:outputText value="#{exam.duration}"/>
+                        </p:column>
+
+                        <p:column headerText="Number Of Slides">
+                            <h:outputText value="#{exam.numberOfSlides}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form>
+                <h2>Exams Written</h2>
+                <div class="card">
+                    <p:dataTable var="exam" value="#{examBean.getExamListWritten()}">
+                        <p:column headerText="Id">
+                            <h:outputText value="#{exam.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Type">
+                            <h:outputText value="Written"/>
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{exam.name}"/>
+                        </p:column>
+
+                        <p:column headerText="Day In Exam Session">
+                            <h:outputText value="#{exam.dayInExamSession}"/>
+                        </p:column>
+
+                        <p:column headerText="Hour">
+                            <h:outputText value="#{exam.hour.hour}"/>
+                        </p:column>
+
+                        <p:column headerText="Minutes">
+                            <h:outputText value="#{exam.hour.minutes}"/>
+                        </p:column>
+
+                        <p:column headerText="Duration">
+                            <h:outputText value="#{exam.duration}"/>
+                        </p:column>
+
+                        <p:column headerText="Number Of Slides">
+                            <h:outputText value="#{var.numberOfSlides}"/>
                         </p:column>
 
                     </p:dataTable>

@@ -7,6 +7,9 @@ import com.lab3.repo.ExamStudentRepo;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,9 +22,9 @@ public class ExamStudent {
 
     ExamStudentRepo examStudentRepo;
     Integer studentId;
-    Integer examId;
+    Long examId;
 
-    public Integer getExamId() {
+    public Long getExamId() {
         return examId;
     }
 
@@ -29,7 +32,8 @@ public class ExamStudent {
         return studentId;
     }
 
-    public void setExamId(Integer examId) {
+    public void setExamId(Long examId) {
+
         this.examId = examId;
     }
 
@@ -39,7 +43,9 @@ public class ExamStudent {
 
     public ExamStudent() throws NamingException {
 
-        this.examStudentRepo = new ExamStudentRepo();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JPAExample");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        this.examStudentRepo = new ExamStudentRepo(entityManager);
     }
 
     /**
@@ -53,14 +59,5 @@ public class ExamStudent {
         examStudentRepo.insertExamStudent(examId, studentId);
     }
 
-    /**
-     * Gets the {@link Exam} names for a {@link Student} id
-     *
-     * @throws SQLException
-     * @throws ClassNotFoundException
-     */
-    public List<String> getExams(Integer studentId) throws SQLException, ClassNotFoundException, NamingException {
 
-        return examStudentRepo.getExamsNames(studentId);
-    }
 }

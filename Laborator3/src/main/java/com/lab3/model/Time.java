@@ -2,6 +2,7 @@ package com.lab3.model;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 /**
@@ -9,6 +10,7 @@ import java.io.Serializable;
  */
 @ManagedBean(name = "time")
 @RequestScoped
+@Embeddable
 public class Time implements Serializable {
 
     private int hour;

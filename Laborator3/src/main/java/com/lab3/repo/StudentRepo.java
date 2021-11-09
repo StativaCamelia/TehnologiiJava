@@ -2,55 +2,32 @@ package com.lab3.repo;
 
 import com.lab3.model.Student;
 
-import javax.annotation.Resource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.List;
 
 public class StudentRepo {
 
-    @Resource
-    private DataSource dataSource;
-    private Connection con;
+    private EntityManager em;
 
-    public StudentRepo() throws NamingException {
-        Context initContext = new InitialContext();
-        Context envContext = (Context) initContext.lookup("java:comp/env");
-        dataSource = (DataSource) envContext.lookup("jdbc/lab3");
+    public StudentRepo(EntityManager em) {
 
+        this.em = em;
     }
 
-    public Connection getCon() throws SQLException {
-
-        con = dataSource.getConnection();
-        return con;
-    }
 
     /**
      * Reads and returns all the students from the database
      *
      * @return a list with all the students
      */
-    public List<Student> getAllStudent() throws SQLException {
+    public List getAllStudent() {
 
-        con = getCon();
-        List<Student> studentList = new ArrayList<>();
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from student");
-        while (rs.next()) {
-
-            Student student = new Student();
-            student.setName(rs.getString("name"));
-            student.setId(rs.getLong("id"));
-            studentList.add(student);
-        }
-
-        con.close();
-        return studentList;
+        Query query = em.createNamedQuery("Student.findAll");
+        List results = query.getResultList();
+        return results;
     }
 
     /**
@@ -58,19 +35,11 @@ public class StudentRepo {
      *
      * @return a list of ids
      */
-    public List<Integer> getAllStudentsIds() throws SQLException {
+    public List<Integer> getAllStudentsIds() {
 
-        con = getCon();
-        List<Integer> studentList = new ArrayList<>();
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select id from student");
-        while (rs.next()) {
-
-            studentList.add(rs.getInt("id"));
-        }
-
-        con.close();
-        return studentList;
+        Query query = em.createNamedQuery("Student.getIds");
+        List<Integer> results = query.getResultList();
+        return results;
     }
 
 
@@ -79,19 +48,38 @@ public class StudentRepo {
      *
      * @param student the student that needs to be stored
      */
-    public int insertStudent(Student student) throws SQLException {
+    public int insertStudent(Student student) {
 
-        int result;
-        con = getCon();
+        int result = 0;
 
-        PreparedStatement stmt = con.prepareStatement(
-                "insert into student(name) values(?)");
+        em.getTransaction().begin();
 
-        stmt.setString(1, student.getName());
+        em.persist(student);
 
-        result = stmt.executeUpdate();
-        con.close();
+        em.getTransaction().commit();
 
         return result;
+    }
+
+    public void deleteStudent(Student student) {
+
+        em.getTransaction().begin();
+        if (!em.contains(student)) {
+            student = em.merge(student);
+        }
+
+        em.remove(student);
+
+        em.getTransaction().commit();
+    }
+
+    public void update(Student student) {
+
+        em.getTransaction().begin();
+        Student oldStudent = em.find(Student.class, student);
+        oldStudent.setName(student.getName());
+
+        em.persist(oldStudent);
+        em.getTransaction().commit();
     }
 }

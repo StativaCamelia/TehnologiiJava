@@ -1,87 +1,78 @@
 package com.lab3.repo;
 
 import com.lab3.model.Exam;
+import com.lab3.model.SearchCriteria;
 import com.lab3.model.Time;
 
-import javax.annotation.Resource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.persistence.*;
 import java.util.List;
 
+@ManagedBean
 public class ExamRepo {
 
-    @Resource
-    private final DataSource dataSource;
+    private final EntityManager em;
 
-    private Connection con;
+    public ExamRepo(EntityManager entityManager) {
 
-    public ExamRepo() throws NamingException {
-
-        Context initContext = new InitialContext();
-        Context envContext = (Context) initContext.lookup("java:comp/env");
-        dataSource = (DataSource) envContext.lookup("jdbc/lab3");
-
+        this.em = entityManager;
     }
 
-    public Connection getCon() throws SQLException {
-
-        con = dataSource.getConnection();
-        return con;
-    }
 
     /**
      * Reds all the exams from the database and returns them
      *
      * @return a list of {@link Exam} entities
      */
-    public List<Exam> getAllExams() throws Exception {
+    public List getAllExamsPresentation() {
 
-        con = getCon();
-        List<Exam> examList = new ArrayList<>();
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from exam");
-        while (rs.next()) {
+        Query query = em.createNamedQuery("Exam.findAll");
+        query.setParameter("disc", "presentation");
 
-            Exam exam = new Exam();
-            exam.setName(rs.getString("name"));
-            exam.setDuration(rs.getFloat("duration"));
-            exam.setId(rs.getLong("id"));
-            exam.setDayInExamSession(rs.getInt("dayInExamSession"));
-            Time time = new Time(rs.getInt("hour"), rs.getInt("minute"));
-            exam.setHour(time);
-            examList.add(exam);
-        }
+        return query.getResultList();
+    }
 
-        con.close();
-        return examList;
+    public List getExamListPresentationBySearchCriterias(SearchCriteria searchCriteria) {
+
+        System.out.println(searchCriteria.getDayInExamSession());
+        Query query = em.createNamedQuery("Exam.findAll");
+        query.setParameter("disc", "presentation");
+
+        return query.getResultList();
+    }
+
+    /**
+     * Reds all the written exams from the database and returns them
+     *
+     * @return a list of {@link Exam} entities
+     */
+    public List getAllExamsWritten() {
+
+        Query query = em.createNamedQuery("Exam.findAll");
+        query.setParameter("disc", "written");
+
+        return query.getResultList();
+    }
+
+    public Exam getById(Long examId) {
+
+        return em.find(Exam.class, examId);
     }
 
     /**
      * Insert a {@link Exam} into the database
      *
      * @param exam The exam that needs to be saved
-     * @param time The time associated with the exam
      */
-    public int insertExam(Exam exam, Time time) throws SQLException {
+    public int insertExam(Exam exam, Time time) {
 
-        int result;
-        con = getCon();
+        int result = 0;
 
-        PreparedStatement stmt = con.prepareStatement(
-                "insert into exam(name, dayInExamSession, hour,minute, duration) values(?,?,?,?,?)");
+        em.getTransaction().begin();
+        exam.setHour(time);
+        em.persist(exam);
 
-        stmt.setString(1, exam.getName());
-        stmt.setInt(2, exam.getDayInExamSession());
-        stmt.setInt(3, time.getHour());
-        stmt.setInt(4, time.getMinutes());
-        stmt.setFloat(5, exam.getDuration());
-
-        result = stmt.executeUpdate();
-        con.close();
+        em.getTransaction().commit();
 
         return result;
     }
@@ -91,19 +82,47 @@ public class ExamRepo {
      *
      * @return a list of ids
      */
-    public List<Integer> getExamsIds() throws SQLException, NamingException {
+    public List getExamsIds() {
 
-        con = getCon();
-        List<Integer> examList = new ArrayList<>();
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select id from exam");
-        while (rs.next()) {
+        em.getTransaction().begin();
+        Query query = em.createNamedQuery("Exam.getIds");
+        em.getTransaction().commit();
 
-            examList.add(rs.getInt("id"));
-        }
-
-        con.close();
-        return examList;
+        return query.getResultList();
     }
 
+    public void deleteExam(Exam exam) {
+
+        em.getTransaction().begin();
+        if (!em.contains(exam)) {
+            exam = em.merge(exam);
+        }
+
+        em.remove(exam);
+
+        em.getTransaction().commit();
+    }
+
+    public void update(Exam exam) {
+
+        em.getTransaction().begin();
+        Exam oldExam = em.find(Exam.class, exam);
+
+        if (exam.getHour() != null) {
+            oldExam.setHour(exam.getHour());
+        }
+        if (exam.getDuration() != null) {
+            oldExam.setDuration(exam.getDuration());
+        }
+        if (exam.getName() != null) {
+
+            oldExam.setName(exam.getName());
+        }
+        if (exam.getDayInExamSession() != null) {
+            oldExam.setDayInExamSession(exam.getDayInExamSession());
+        }
+
+        em.persist(oldExam);
+        em.getTransaction().commit();
+    }
 }
