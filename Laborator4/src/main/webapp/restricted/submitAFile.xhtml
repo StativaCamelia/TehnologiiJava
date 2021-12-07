@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition template="mainPage.xhtml">
+        <ui:define name="content">
+            <h1>Submit File</h1>
+
+            <h:form enctype="multipart/form-data">
+                <p:fileUpload mode="simple" value="#{submitFile.uploadedFile}" />
+                <p:commandButton value="Upload" action="#{submitFile.submitDocument}" ajax="false" />
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

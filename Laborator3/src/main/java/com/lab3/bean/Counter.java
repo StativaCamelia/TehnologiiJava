@@ -3,11 +3,9 @@ package com.lab3.bean;
 import com.lab3.model.Exam;
 import com.lab3.repo.ExamRepo;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import java.util.List;
 
@@ -22,19 +20,17 @@ public class Counter {
     private int currentIndex;
     private List<Exam> examList;
 
+    @EJB
     ExamRepo examRepo;
 
-    public Counter() throws Exception {
+    public Counter() {
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JPAExample");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        this.examRepo = new ExamRepo(entityManager);
-        examList = examRepo.getAllExamsPresentation();
     }
 
     public String getExam() {
 
+        examList = examRepo.getAllExamsPresentation();
         return examList.get(currentIndex).getName();
     }
 

@@ -20,10 +20,10 @@ public class LanguageBean implements Serializable {
 
     private String localeCode;
 
-    private static Map<String, Object> countries;
+    private static final Map<String, Object> countries;
 
     static {
-        countries = new LinkedHashMap<String, Object>();
+        countries = new LinkedHashMap<>();
         countries.put("English", Locale.ENGLISH);
         countries.put("Romanian", Locale.ITALIAN);
     }

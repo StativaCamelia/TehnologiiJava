@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+>
+
+<h:head>
+
+</h:head>
+
+<h:body>
+
+
+    <ui:composition template="/templates/dataedit.xhtml">
+
+        <ui:param name="function" value="#{reservation.assignResources()}"/>
+
+        <ui:define name="dataEditContent">
+            <h:panelGrid columns="2" cellpadding="2" style="margin: 0 auto;">
+
+                <p:outputLabel for="listExams" value="Exam ID"/>
+                <p:selectOneMenu id="listExams" value="#{reservation.examId}" required="true">
+                    <f:selectItems value="#{examBean.getExamIds()}" var="st" itemValue="#{st}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel for="listResourcesFirst" value="First Resource ID"/>
+                <p:selectOneMenu id="listResourcesFirst" value="#{reservation.firstResource}" required="false">
+                    <f:selectItems value="#{resourceBean.getResourceIds()}" var="st" itemValue="#{st}"/>
+                </p:selectOneMenu>
+
+                <h:panelGrid columns="1" cellpadding="5" style="margin: 0 auto;">
+                    <p:outputLabel for="firstResourceQuantity" value="First Quantity"/>
+                    <p:inputNumber id="firstResourceQuantity" value="#{reservation.firstQuantity}" required="false"/>
+                    <p:message for="firstResourceQuantity"/>
+                </h:panelGrid>
+
+
+                <p:outputLabel for="listResourcesSecond" value="Second Resource ID"/>
+                <p:selectOneMenu id="listResourcesSecond" value="#{reservation.secondResource}" required="false">
+                    <f:selectItems value="#{resourceBean.getResourceIds()}" var="st" itemValue="#{st}"/>
+                </p:selectOneMenu>
+
+                <h:panelGrid columns="1" cellpadding="5" style="margin: 0 auto;">
+                    <p:outputLabel for="secondResourceQuantity" value="Second Quantity"/>
+                    <p:inputNumber id="secondResourceQuantity" value="#{reservation.secondQuantity}" required="false"/>
+                    <p:message for="secondResourceQuantity"/>
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+        </ui:define>
+
+    </ui:composition>
+
+</h:body>
+</html>

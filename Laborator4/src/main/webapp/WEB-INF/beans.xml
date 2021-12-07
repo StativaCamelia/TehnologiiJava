@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+
+    <interceptors>
+        <class>com.lab3.log.LoggingInterceptor</class>
+        <class>com.lab3.log.LogFilesInterceptor</class>
+    </interceptors>
+
+
+    <decorators>
+        <class>com.lab3.decorator.PasswordDecorator</class>
+        <class>com.lab3.decorator.AutorDecorator</class>
+        <class>com.lab3.decorator.AdminDecorator</class>
+        <class>com.lab3.decorator.RegistrationTime</class>
+        <class>com.lab3.decorator.SubmissionTime</class>
+    </decorators>
+
+</beans>

@@ -20,7 +20,7 @@ public class StudentConverter implements Converter {
 
     private final StudentBean studentService;
 
-    public StudentConverter() throws NamingException {
+    public StudentConverter() {
 
         studentService = new StudentBean();
     }

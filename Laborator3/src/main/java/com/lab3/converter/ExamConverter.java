@@ -9,14 +9,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import javax.naming.NamingException;
 
 @FacesConverter(value = "examConverter")
 public class ExamConverter implements Converter {
 
     private final ExamBean examService;
 
-    public ExamConverter() throws NamingException {
+    public ExamConverter() {
 
         examService = new ExamBean();
     }
@@ -37,7 +36,6 @@ public class ExamConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        Exam exam = (Exam) value;
 
         if (value != null) {
             return "Hello";

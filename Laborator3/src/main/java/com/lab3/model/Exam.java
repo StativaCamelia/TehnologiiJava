@@ -2,9 +2,10 @@ package com.lab3.model;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,6 +51,9 @@ public class Exam implements Serializable {
 
     @ManyToMany(mappedBy = "exams")
     Set<Student> students;
+
+    @OneToMany(mappedBy = "exam")
+    private List<ExamResource> resources = new ArrayList<>();
 
 
     public Set<Student> getStudents() {

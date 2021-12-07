@@ -4,15 +4,13 @@ import com.lab3.model.Student;
 import com.lab3.repo.StudentRepo;
 import org.primefaces.event.RowEditEvent;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,15 +22,10 @@ import java.util.stream.Collectors;
 @RequestScoped
 public class StudentBean {
 
+    @EJB
     StudentRepo studentRepo;
     private Map<Long, Student> studentsAsMap;
 
-    public StudentBean() {
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JPAExample");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        this.studentRepo = new StudentRepo(entityManager);
-    }
 
     /**
      * Gets a list of students

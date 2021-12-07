@@ -4,19 +4,15 @@ import com.lab3.model.Exam;
 import com.lab3.model.SearchCriteria;
 import com.lab3.model.Time;
 
-import javax.faces.bean.ManagedBean;
+import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.util.List;
 
-@ManagedBean
+@Stateless
 public class ExamRepo {
 
-    private final EntityManager em;
-
-    public ExamRepo(EntityManager entityManager) {
-
-        this.em = entityManager;
-    }
+    @PersistenceContext(unitName = "JPAExample")
+    private EntityManager em;
 
 
     /**
@@ -34,7 +30,6 @@ public class ExamRepo {
 
     public List getExamListPresentationBySearchCriterias(SearchCriteria searchCriteria) {
 
-        System.out.println(searchCriteria.getDayInExamSession());
         Query query = em.createNamedQuery("Exam.findAll");
         query.setParameter("disc", "presentation");
 
@@ -68,11 +63,8 @@ public class ExamRepo {
 
         int result = 0;
 
-        em.getTransaction().begin();
         exam.setHour(time);
         em.persist(exam);
-
-        em.getTransaction().commit();
 
         return result;
     }
@@ -84,28 +76,22 @@ public class ExamRepo {
      */
     public List getExamsIds() {
 
-        em.getTransaction().begin();
-        Query query = em.createNamedQuery("Exam.getIds");
-        em.getTransaction().commit();
 
+        Query query = em.createNamedQuery("Exam.getIds");
         return query.getResultList();
     }
 
     public void deleteExam(Exam exam) {
 
-        em.getTransaction().begin();
         if (!em.contains(exam)) {
             exam = em.merge(exam);
         }
 
         em.remove(exam);
-
-        em.getTransaction().commit();
     }
 
     public void update(Exam exam) {
 
-        em.getTransaction().begin();
         Exam oldExam = em.find(Exam.class, exam);
 
         if (exam.getHour() != null) {
@@ -123,6 +109,5 @@ public class ExamRepo {
         }
 
         em.persist(oldExam);
-        em.getTransaction().commit();
     }
 }

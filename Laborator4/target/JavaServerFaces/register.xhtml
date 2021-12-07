@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+>
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition template="/page.xhtml">
+        <ui:define name="content">
+            <h1>Register</h1>
+
+            <h:form id="registerForm">
+                <p:outputLabel value="User Name:"/>
+                <p:inputText id="name" value="#{userRegister.username}"/> <br/>
+                <p:messages for="name" showDetail="true">
+                    <p:autoUpdate/>
+                </p:messages>
+
+                <p:outputLabel value="Password:"/>
+                <p:password id="password" value="#{userRegister.password}"></p:password><br/>
+                <p:messages for="password" showDetail="true">
+                    <p:autoUpdate/>
+                </p:messages>
+
+                <p:outputLabel value="Type:"/>
+                <p:selectOneMenu value="#{userRegister.type}" itemLabel="#{types.label}">
+                    <f:selectItems value="#{userTypes.getTypes()}" var="g"
+                                   itemValue="#{g}" itemLabel="#{g.label}"/>
+                </p:selectOneMenu><br/>
+
+                <p:commandButton value="Submit" action="#{userRegister.register()}"></p:commandButton>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

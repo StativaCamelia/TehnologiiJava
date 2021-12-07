@@ -4,16 +4,12 @@ import com.lab3.model.*;
 import com.lab3.repo.ExamRepo;
 import org.primefaces.event.RowEditEvent;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,28 +22,22 @@ import java.util.stream.Collectors;
 public class ExamBean implements Serializable {
 
 
+    @EJB
     ExamRepo examRepo;
 
     private Map<Long, Exam> examsAsMap;
-
-    public ExamBean() {
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JPAExample");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        this.examRepo = new ExamRepo(entityManager);
-    }
 
     /**
      * Gets all the {@link Exam}s of presentation type from the database
      *
      * @return a list of {@link Exam}s
      */
-    public List<Exam> getExamListPresentation() throws Exception {
+    public List<Exam> getExamListPresentation() {
 
         return examRepo.getAllExamsPresentation();
     }
 
-    public List<Exam> getExamListPresentationBySearchCriterias(SearchCriteria searchCriteria) throws Exception {
+    public List<Exam> getExamListPresentationBySearchCriterias(SearchCriteria searchCriteria) {
 
         System.out.println(searchCriteria);
         return examRepo.getExamListPresentationBySearchCriterias(searchCriteria);
@@ -58,7 +48,7 @@ public class ExamBean implements Serializable {
      *
      * @return a list of {@link Exam}s
      */
-    public List<Exam> getExamListWritten() throws Exception {
+    public List<Exam> getExamListWritten() {
 
         return examRepo.getAllExamsWritten();
     }
@@ -68,7 +58,7 @@ public class ExamBean implements Serializable {
      *
      * @return a list of ids
      */
-    public List<Integer> getExamIds() throws SQLException, NamingException {
+    public List<Integer> getExamIds() {
 
         return examRepo.getExamsIds();
     }
@@ -79,7 +69,7 @@ public class ExamBean implements Serializable {
      * @param presentation The presentation that needs to be saved
      * @param time         The time for the presentation
      */
-    public void saveExamPresentation(Presentation presentation, Time time) throws SQLException, NamingException {
+    public void saveExamPresentation(Presentation presentation, Time time) {
 
         int result = examRepo.insertExam(presentation, time);
         if (result != 0) {
@@ -89,7 +79,7 @@ public class ExamBean implements Serializable {
         }
     }
 
-    public void saveExamWritten(Written written, Time time) throws SQLException, NamingException {
+    public void saveExamWritten(Written written, Time time) {
 
         int result = examRepo.insertExam(written, time);
         if (result != 0) {
@@ -104,7 +94,7 @@ public class ExamBean implements Serializable {
         examRepo.deleteExam(exam);
     }
 
-    public Map<Long, Exam> getExamsAsMap() throws Exception {
+    public Map<Long, Exam> getExamsAsMap() {
 
         if (examsAsMap == null) {
             examsAsMap = getExamListPresentation().stream().collect(Collectors.toMap(Exam::getId, exam -> exam));
@@ -112,7 +102,7 @@ public class ExamBean implements Serializable {
         return examsAsMap;
     }
 
-    public void onRowCancel(RowEditEvent event) {
+    public void onRowCancel() {
         FacesMessage msg = new FacesMessage("Edit Cancelled", "Edited");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

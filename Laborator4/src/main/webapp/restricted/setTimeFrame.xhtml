@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition template="mainPage.xhtml">
+        <ui:define name="content">
+            <h1>Login</h1>
+
+            <h:form id="timeForm">
+
+                <div class="p-field p-col-12 p-md-4">
+                    <p:outputLabel for="timeStart" value="Time Start"/>
+                    <p:datePicker id="timeStart" value="#{admin.dateStart}" showTime="true"/>
+                </div>
+
+                <div class="p-field p-col-12 p-md-4">
+                    <p:outputLabel for="timeonly" value="Time End"/>
+                    <p:datePicker id="timeonly" value="#{admin.endStart}" showTime="true"/>
+                </div>
+
+                <p:commandButton value="Submit" action="#{admin.setTimeFrame()}"></p:commandButton>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

@@ -17,6 +17,9 @@
     <p:button outcome="seeStudents" value="#{msg['see_students']}"/>
     <p:button outcome="associateExamToStudent" value="AssociateExamToStudent"/>
     <p:button outcome="searchExams" value="Search Exams"/>
+    <p:button outcome="seeResources" value="Resources"/>
+    <p:button outcome="seeReservations" value="See Reservations"/>
+    <p:button outcome="createReservation" value="Create Reservation"/>
     <br/>
     <h:outputText id="poll" value="Upcoming Exams: #{counter.getExam()}"/>
     <p:poll interval="1" listener="#{counter.increment}" update="poll"/>

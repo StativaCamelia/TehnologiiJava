@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:tp="http://java.sun.com/jsf/composite/compos"
+>
+
+<h:head>
+</h:head>
+<h:body>
+
+
+    <ui:composition template="/templates/dataview.xhtml">
+
+        <ui:param name="function" value="#{resourceBean.getResourceList()}"/>
+
+        <ui:define name="dataview">
+
+            <p:column headerText="Id">
+                <h:outputText value="#{var.id}"/>
+            </p:column>
+
+            <p:column headerText="Name">
+                <h:outputText value="#{var.name}"/>
+            </p:column>
+
+            <p:column headerText="Name">
+                <h:outputText value="#{var.quantity}"/>
+            </p:column>
+
+            <p:column>
+                <p:commandButton icon="ui-icon-trash"
+                                 title="Delete this student"
+                                 actionListener="#{resourceBean.remove(var)}"
+                                 ajax="false"/>
+            </p:column>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

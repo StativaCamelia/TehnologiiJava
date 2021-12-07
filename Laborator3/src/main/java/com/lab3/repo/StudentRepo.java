@@ -2,20 +2,17 @@ package com.lab3.repo;
 
 import com.lab3.model.Student;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+@Stateless
 public class StudentRepo {
 
+    @PersistenceContext(unitName = "JPAExample")
     private EntityManager em;
-
-    public StudentRepo(EntityManager em) {
-
-        this.em = em;
-    }
 
 
     /**
@@ -26,8 +23,7 @@ public class StudentRepo {
     public List getAllStudent() {
 
         Query query = em.createNamedQuery("Student.findAll");
-        List results = query.getResultList();
-        return results;
+        return query.getResultList();
     }
 
     /**
@@ -38,8 +34,7 @@ public class StudentRepo {
     public List<Integer> getAllStudentsIds() {
 
         Query query = em.createNamedQuery("Student.getIds");
-        List<Integer> results = query.getResultList();
-        return results;
+        return (List<Integer>) query.getResultList();
     }
 
 
@@ -52,34 +47,25 @@ public class StudentRepo {
 
         int result = 0;
 
-        em.getTransaction().begin();
-
         em.persist(student);
-
-        em.getTransaction().commit();
 
         return result;
     }
 
     public void deleteStudent(Student student) {
 
-        em.getTransaction().begin();
         if (!em.contains(student)) {
             student = em.merge(student);
         }
 
         em.remove(student);
-
-        em.getTransaction().commit();
     }
 
     public void update(Student student) {
 
-        em.getTransaction().begin();
         Student oldStudent = em.find(Student.class, student);
         oldStudent.setName(student.getName());
 
         em.persist(oldStudent);
-        em.getTransaction().commit();
     }
 }

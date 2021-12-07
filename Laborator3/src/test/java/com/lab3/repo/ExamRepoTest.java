@@ -27,7 +27,7 @@ public class ExamRepoTest {
         entityManager = Mockito.mock(EntityManager.class);
         entityTransaction = Mockito.mock(EntityTransaction.class);
         when(entityManager.getTransaction()).thenReturn(entityTransaction);
-        examRepo = new ExamRepo(entityManager);
+        examRepo = new ExamRepo();
     }
 
     @Test
