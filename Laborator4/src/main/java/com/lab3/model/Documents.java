@@ -1,13 +1,15 @@
 package com.lab3.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "documents")
 @Table(name = "documents")
 @NamedQueries({
-        @NamedQuery(query = "Select s from documents s", name = "Documents.findAll")
+        @NamedQuery(query = "Select s from documents s", name = "Documents.findAll"),
+        @NamedQuery(query = "Select s from documents s where s.author = :author", name = "Documents.findAllByAuthor")
 })
-public class Documents {
+public class Documents implements Serializable {
 
 
     @Column(name = "author")
@@ -15,10 +17,14 @@ public class Documents {
     @Column(name = "name")
     String name;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(name = "file")
     private byte[] fileData;
+
+    @Column(name = "content")
+    private String content;
 
     public Documents() {
 
@@ -31,6 +37,14 @@ public class Documents {
         this.author = author;
         this.name = name;
         this.fileData = fileData;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getAuthor() {

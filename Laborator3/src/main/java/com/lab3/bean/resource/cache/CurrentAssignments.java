@@ -18,6 +18,8 @@ public class CurrentAssignments {
     @EJB
     private ExamResourceRepo examResourceRepo;
 
+    //syncronized for methods
+    //Lock annotation -> specify read/write
     private List<ExamResource> examResources;
 
     @PostConstruct

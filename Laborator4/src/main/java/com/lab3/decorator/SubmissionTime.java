@@ -51,4 +51,27 @@ public class SubmissionTime implements DocumentsRepoBase {
         }
 
     }
+
+    @Override
+    public List<Documents> getDocuments(String autor) {
+        return documentsRepoBase.getDocuments(autor);
+    }
+
+    @Override
+    public Documents saveDocuments(Documents documents) {
+        return documentsRepoBase.saveDocuments(documents);
+    }
+
+    @Override
+    public void delete(long id) {
+
+        documentsRepoBase.delete(id);
+    }
+
+    @Override
+    public Documents update(Documents documents) {
+        return documentsRepoBase.update(documents);
+    }
+
+
 }

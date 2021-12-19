@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.ParseException;
+import java.util.List;
 
 @Decorator
 public class AutorDecorator implements DocumentsRepoBase {
@@ -32,5 +33,25 @@ public class AutorDecorator implements DocumentsRepoBase {
 
         if (type.equals(UserTypes.BASIC.getLabel()))
             decoratedObj.saveDocument(documents);
+    }
+
+    @Override
+    public List<Documents> getDocuments(String autor) {
+        return decoratedObj.getDocuments(autor);
+    }
+
+    @Override
+    public Documents saveDocuments(Documents documents) {
+        return decoratedObj.saveDocuments(documents);
+    }
+
+    @Override
+    public void delete(long id) {
+        decoratedObj.delete(id);
+    }
+
+    @Override
+    public Documents update(Documents documents) {
+        return decoratedObj.update(documents);
     }
 }
