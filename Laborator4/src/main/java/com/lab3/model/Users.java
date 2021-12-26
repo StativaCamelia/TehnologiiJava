@@ -13,37 +13,30 @@ public class Users implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "id")
-    @Column(name = "id")
-    Long id;
-
-    @Column(name = "username")
-    String name;
+    @Column(name = "ID")
+    String id;
 
     @Column(name = "password")
     String password;
 
-    @Column(name = "usertype")
-    @Enumerated(EnumType.STRING)
-    UserTypes userType;
+    @Column(name = "email")
+    String email;
 
-    public Users(String username, String password, UserTypes type) {
+    @Column(name = "name")
+    String name;
 
-        this.name = username;
+    public Users(String id, String password, String email, String name) {
+
+        this.id = id;
         this.password = password;
-        this.userType = type;
+        this.email = email;
+        this.name = name;
     }
 
     public Users() {
 
     }
 
-    public UserTypes getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserTypes userType) {
-        this.userType = userType;
-    }
 
     public String getPassword() {
         return password;
@@ -61,12 +54,20 @@ public class Users implements Serializable {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

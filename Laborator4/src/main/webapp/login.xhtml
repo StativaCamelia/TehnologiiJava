@@ -1,7 +1,8 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
 >
 <h:head>
 
@@ -11,19 +12,14 @@
         <ui:define name="content">
             <h1>Login</h1>
 
-            <h:form id="registerForm">
+            <form method="POST" action="j_security_check">
+                Username: <input type="text" name="j_username"/>
+                Password: <input type="password" name="j_password"/>
 
-                <p:outputLabel value="User Name:"/>
-                <p:inputText id="name" value="#{userLogin.username}"/> <br/>
-                <p:message for="name"/>
 
-                <p:outputLabel value="Password:"/>
-
-                <p:password id="password" value="#{userLogin.password}"></p:password><br/>
-                <p:message for="password"/>
-
-                <p:commandButton value="Submit" action="#{userLogin.login()}"></p:commandButton>
-            </h:form>
+                <input type="submit" value="Login"/>
+                <input type="reset" value="Reset"/>
+            </form>
 
         </ui:define>
     </ui:composition>

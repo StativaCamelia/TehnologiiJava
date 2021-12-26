@@ -1,7 +1,6 @@
 package com.lab3.decorator;
 
 import com.lab3.model.Documents;
-import com.lab3.model.UserTypes;
 import com.lab3.repo.DocumentsRepoBase;
 
 import javax.decorator.Decorator;
@@ -31,7 +30,7 @@ public class AutorDecorator implements DocumentsRepoBase {
 
         String type = URLDecoder.decode(user.getValue(), "UTF-8");
 
-        if (type.equals(UserTypes.BASIC.getLabel()))
+//        if (type.equals(UserTypes.BASIC.getLabel()))
             decoratedObj.saveDocument(documents);
     }
 
