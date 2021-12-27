@@ -5,7 +5,6 @@ import com.lab3.repo.DocumentsRepoBase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +16,7 @@ public class DocumentResource {
 
     private DocumentsRepoBase documentRepo;
 
-    public DocumentResource(){
+    public DocumentResource() {
 
     }
 
@@ -31,7 +30,6 @@ public class DocumentResource {
     @ApiOperation(value = "Get All the saved Documents by author")
     @Path("/{author}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("admin")
     public List<Documents> viewDocumentByAuthor(@PathParam("author") String author) {
 
         return documentRepo.getDocuments(author);
@@ -40,7 +38,6 @@ public class DocumentResource {
     @GET
     @ApiOperation(value = "Get All the saved Documents")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("admin")
     public List<Documents> viewDocuments() {
 
         return documentRepo.getDocuments(null);
@@ -50,7 +47,6 @@ public class DocumentResource {
     @ApiOperation(value = "Saves a received document")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
     public Documents saveDocument(Documents documents) {
 
         return documentRepo.saveDocuments(documents);
@@ -60,7 +56,6 @@ public class DocumentResource {
     @ApiOperation(value = "Deletes a documents by id")
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("admin")
     public void deleteDocument(@PathParam("id") int id) {
         documentRepo.delete(id);
 

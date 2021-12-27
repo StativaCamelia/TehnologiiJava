@@ -61,6 +61,9 @@
             <web-resource-name>Admin Only</web-resource-name>
             <url-pattern>/faces/restricted/seeAllFiles.xhtml</url-pattern>
             <url-pattern>/faces/restricted/setTimeFrame.xhtml</url-pattern>
+            <url-pattern>/resources/document/*</url-pattern>
+            <http-method>DELETE</http-method>
+            <http-method>UPDATE</http-method>
             <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
@@ -78,6 +81,5 @@
             <role-name>user</role-name>
         </auth-constraint>
     </security-constraint>
-
 
 </web-app>
