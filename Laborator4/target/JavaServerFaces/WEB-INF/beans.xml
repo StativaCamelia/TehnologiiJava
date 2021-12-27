@@ -13,7 +13,6 @@
     <decorators>
         <class>com.lab3.decorator.PasswordDecorator</class>
         <class>com.lab3.decorator.AutorDecorator</class>
-        <class>com.lab3.decorator.AdminDecorator</class>
         <class>com.lab3.decorator.RegistrationTime</class>
         <class>com.lab3.decorator.SubmissionTime</class>
     </decorators>

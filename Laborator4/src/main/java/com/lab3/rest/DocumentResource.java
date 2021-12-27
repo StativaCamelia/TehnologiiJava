@@ -5,6 +5,7 @@ import com.lab3.repo.DocumentsRepoBase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,10 +15,14 @@ import java.util.List;
 @Api(value = "CRUD documents operation")
 public class DocumentResource {
 
-    private final DocumentsRepoBase documentRepo;
+    private DocumentsRepoBase documentRepo;
+
+    public DocumentResource(){
+
+    }
 
     @Inject
-    public DocumentResource(DocumentsRepoBase documentRepo){
+    public DocumentResource(DocumentsRepoBase documentRepo) {
 
         this.documentRepo = documentRepo;
     }
@@ -26,7 +31,8 @@ public class DocumentResource {
     @ApiOperation(value = "Get All the saved Documents by author")
     @Path("/{author}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Documents> viewDocumentByAuthor(@PathParam("author") String author){
+    @RolesAllowed("admin")
+    public List<Documents> viewDocumentByAuthor(@PathParam("author") String author) {
 
         return documentRepo.getDocuments(author);
     }
@@ -34,7 +40,8 @@ public class DocumentResource {
     @GET
     @ApiOperation(value = "Get All the saved Documents")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Documents> viewDocuments(){
+    @RolesAllowed("admin")
+    public List<Documents> viewDocuments() {
 
         return documentRepo.getDocuments(null);
     }
@@ -43,7 +50,8 @@ public class DocumentResource {
     @ApiOperation(value = "Saves a received document")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Documents saveDocument(Documents documents){
+    @RolesAllowed("user")
+    public Documents saveDocument(Documents documents) {
 
         return documentRepo.saveDocuments(documents);
     }
@@ -52,8 +60,8 @@ public class DocumentResource {
     @ApiOperation(value = "Deletes a documents by id")
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteCountry(@PathParam("id") int id)
-    {
+    @RolesAllowed("admin")
+    public void deleteDocument(@PathParam("id") int id) {
         documentRepo.delete(id);
 
     }
@@ -61,8 +69,7 @@ public class DocumentResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Updates a document")
-    public Documents update(Documents documents)
-    {
+    public Documents update(Documents documents) {
         return documentRepo.update(documents);
 
     }
