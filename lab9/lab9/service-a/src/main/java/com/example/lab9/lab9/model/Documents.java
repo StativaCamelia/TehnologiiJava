@@ -1,4 +1,4 @@
-package com.laborator9.demo.model;
+package com.example.lab9.lab9.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -1,13 +1,15 @@
-package com.laborator9.demo.repo;
+package com.example.lab9.lab9.repo;
 
-import com.laborator9.demo.model.Documents;
+import com.example.lab9.lab9.model.Documents;
 
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@RequestScoped
 public class DocumentsRepo {
 
     @PersistenceContext(unitName = "JPA")
@@ -20,15 +22,14 @@ public class DocumentsRepo {
     }
 
     @Transactional
-    public List getDocuments(String author){
+    public List getDocuments(String author) {
 
         Query query;
 
-        if(author != null) {
+        if (author != null) {
             query = em.createNamedQuery("Documents.findAllByAuthor");
             query.setParameter("author", author);
-        }
-        else{
+        } else {
             query = em.createNamedQuery("Documents.findAll");
         }
         return query.getResultList();
