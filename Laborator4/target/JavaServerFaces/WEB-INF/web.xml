@@ -75,6 +75,7 @@
         <web-resource-collection>
             <web-resource-name>User Only</web-resource-name>
             <url-pattern>/faces/restricted/submitAFile.xhtml</url-pattern>
+            <url-pattern>/resources/document/*</url-pattern>
             <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
