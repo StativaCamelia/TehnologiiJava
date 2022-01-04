@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="lab9-service-a:war exploded">
+    <output-path>$PROJECT_DIR$/lab9/service-a/target/lab9</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>lab9-service-a</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="lab9-service-a" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/lab9/service-a/target/lab9/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="lab9-service-a/web/Web" />
+    </root>
+  </artifact>
+</component>
